@@ -1,3 +1,12 @@
+import os
+import socket
+import subprocess
+from audioop import error
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlparse
+
+import m3u8
+
 import re
 import requests
 import logging
@@ -76,13 +85,32 @@ def fetch_channels(url):
 def match_channels(template_channels, all_channels):
     matched_channels = OrderedDict()
 
+    host_pings = {}
     for category, channel_list in template_channels.items():
         matched_channels[category] = OrderedDict()
         for channel_name in channel_list:
+            logging.info(f"url: 检查频道: {channel_name}")
             for online_category, online_channel_list in all_channels.items():
                 for online_channel_name, online_channel_url in online_channel_list:
                     if channel_name == online_channel_name:
-                        matched_channels[category].setdefault(channel_name, []).append(online_channel_url)
+                        logging.info(f"url: 检查: {online_channel_url}")
+                        # Check if the host domain of online_channel_url can be pinged
+                        host = online_channel_url.split('/')[2].split(':')[0]  # Extract the host from the URL
+                        if host in host_pings:
+                            response=host_pings.get(host)
+                        else:
+                            response = os.system(f"ping -c 1 -W 2 {host}")
+                        if response == 0:
+                            host_pings[host] = 0
+                            try:
+                                resp = check_stream(online_channel_url, timeout=4)
+                                if resp[0]:
+                                    logging.info(f"url: 检查有效: {online_channel_url}")
+                                    matched_channels[category].setdefault(channel_name, []).append(online_channel_url)
+                            except URLError:
+                                logging.info(f"url: 检查无效: {online_channel_url}")
+                        else:
+                            host_pings[host] = 1
 
     return matched_channels
 
@@ -141,9 +169,10 @@ def updateChannelUrlsM3U(channels, template_channels):
                             total_urls = len(filtered_urls)
                             for index, url in enumerate(filtered_urls, start=1):
                                 if is_ipv6(url):
-                                    url_suffix = f"$LR•IPV6" if total_urls == 1 else f"$LR•IPV6『线路{index}』"
+                                    # url_suffix = f"$LR•IPV6" if total_urls == 1 else f"$LR•IPV6『线路{index}』"
+                                    continue
                                 else:
-                                    url_suffix = f"$LR•IPV4" if total_urls == 1 else f"$LR•IPV4『线路{index}』"
+                                    url_suffix = f"$" if total_urls == 1 else f"$线路{index}"
                                 if '$' in url:
                                     base_url = url.split('$', 1)[0]
                                 else:
@@ -156,6 +185,91 @@ def updateChannelUrlsM3U(channels, template_channels):
                                 f_txt.write(f"{channel_name},{new_url}\n")
 
             f_txt.write("\n")
+
+def check_stream(url, timeout=10):
+    """
+    检查单个 IPTV 流地址是否有效
+
+    参数:
+        url: IPTV 流地址
+        timeout: 超时时间(秒)
+
+    返回:
+        (bool, str): (是否有效, 详细信息)
+    """
+    try:
+        # 检查 URL 格式
+        parsed = urlparse(url)
+        if not parsed.scheme or not parsed.netloc:
+            return False, "无效的 URL 格式"
+
+        # 检查域名是否可解析
+        # try:
+        #     socket.gethostbyname(parsed.netloc)
+        # except socket.gaierror:
+        #     return False, "域名无法解析"
+
+        # 对于 m3u8 流
+        if url.lower().endswith('m3u8'):
+            try:
+                response = requests.get(url, timeout=timeout)
+                if response.status_code != 200:
+                    return False, f"HTTP 状态码: {response.status_code}"
+
+                m3u8_obj = m3u8.loads(response.text)
+                if not m3u8_obj.segments:
+                    return False, "M3U8 文件无有效片段"
+
+                # 检查第一个片段是否可访问
+                first_segment = m3u8_obj.segments[0]
+                if not first_segment.uri.startswith('http'):
+                    base_url = url.rsplit('/', 1)[0]
+                    segment_url = f"{base_url}/{first_segment.uri}"
+                else:
+                    segment_url = first_segment.uri
+
+                segment_response = requests.head(segment_url, timeout=timeout)
+                if segment_response.status_code != 200:
+                    return False, "无法访问媒体片段"
+
+            except Exception as e:
+                return False, f"M3U8 解析错误: {str(e)}"
+
+        # 对于其他类型的流 (比如 .ts, .flv 等)
+        else:
+            try:
+                # 使用 ffprobe 检查媒体信息
+                command = [
+                    'ffprobe',
+                    '-v', 'quiet',
+                    '-print_format', 'json',
+                    '-show_format',
+                    '-show_streams',
+                    '-i', url
+                ]
+
+                process = subprocess.Popen(
+                    command,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE
+                )
+
+                process.communicate(timeout=timeout)
+
+                if process.returncode != 0:
+                    return False, "媒体流无法解析"
+
+            except subprocess.TimeoutExpired:
+                return False, "连接超时"
+            except Exception as e:
+                return False, f"流媒体检查错误: {str(e)}"
+
+        return True, "源有效"
+
+    except Exception as e:
+        return False, f"检查过程发生错误: {str(e)}"
+
+
 
 if __name__ == "__main__":
     template_file = "demo.txt"
