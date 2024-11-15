@@ -1,7 +1,6 @@
 import os
 import socket
 import subprocess
-from audioop import error
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
 
@@ -95,22 +94,25 @@ def match_channels(template_channels, all_channels):
                     if channel_name == online_channel_name:
                         logging.info(f"url: 检查: {online_channel_url}")
                         # Check if the host domain of online_channel_url can be pinged
-                        host = online_channel_url.split('/')[2].split(':')[0]  # Extract the host from the URL
-                        if host in host_pings:
-                            response=host_pings.get(host)
-                        else:
-                            response = os.system(f"ping -c 1 -W 2 {host}")
-                        if response == 0:
-                            host_pings[host] = 0
-                            try:
-                                resp = check_stream(online_channel_url, timeout=4)
-                                if resp[0]:
-                                    logging.info(f"url: 检查有效: {online_channel_url}")
-                                    matched_channels[category].setdefault(channel_name, []).append(online_channel_url)
-                            except URLError:
-                                logging.info(f"url: 检查无效: {online_channel_url}")
-                        else:
-                            host_pings[host] = 1
+                        if "api.livednow.org" in online_channel_url or "chinamobile" in online_channel_url or "hnqczh" in online_channel_url:
+                            matched_channels[category].setdefault(channel_name, []).append(online_channel_url)
+
+                        # host = online_channel_url.split('/')[2].split(':')[0]  # Extract the host from the URL
+                        # if host in host_pings:
+                        #     response=host_pings.get(host)
+                        # else:
+                        #     response = os.system(f"ping -c 1 -W 2 {host}")
+                        # if response == 0:
+                        #     host_pings[host] = 0
+                        #     try:
+                        #         resp = check_stream(online_channel_url, timeout=4)
+                        #         if resp[0]:
+                        #             logging.info(f"url: 检查有效: {online_channel_url}")
+                        #             matched_channels[category].setdefault(channel_name, []).append(online_channel_url)
+                        #     except URLError:
+                        #         logging.info(f"url: 检查无效: {online_channel_url}")
+                        # else:
+                        #     host_pings[host] = 1
 
     return matched_channels
 
