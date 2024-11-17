@@ -89,31 +89,19 @@ def match_channels(template_channels, all_channels):
         matched_channels[category] = OrderedDict()
         for channel_name in channel_list:
             logging.info(f"url: 检查频道: {channel_name}")
+            livednow_urls = []
+            other_urls = []
             for online_category, online_channel_list in all_channels.items():
                 for online_channel_name, online_channel_url in online_channel_list:
                     if channel_name == online_channel_name:
                         logging.info(f"url: 检查: {online_channel_url}")
                         # Check if the host domain of online_channel_url can be pinged
-                        if "api.livednow.org":
-                            matched_channels[category].setdefault(channel_name, []).append(online_channel_url)
-
-                        # host = online_channel_url.split('/')[2].split(':')[0]  # Extract the host from the URL
-                        # if host in host_pings:
-                        #     response=host_pings.get(host)
-                        # else:
-                        #     response = os.system(f"ping -c 1 -W 2 {host}")
-                        # if response == 0:
-                        #     host_pings[host] = 0
-                        #     try:
-                        #         resp = check_stream(online_channel_url, timeout=4)
-                        #         if resp[0]:
-                        #             logging.info(f"url: 检查有效: {online_channel_url}")
-                        #             matched_channels[category].setdefault(channel_name, []).append(online_channel_url)
-                        #     except URLError:
-                        #         logging.info(f"url: 检查无效: {online_channel_url}")
-                        # else:
-                        #     host_pings[host] = 1
-
+                        if "api.livednow.org" in online_channel_url:
+                            livednow_urls.append(online_channel_url)
+                        elif "ottrrs.hl.chinamobile.com" in online_channel_url:
+                            other_urls.append(online_channel_url)
+            if livednow_urls or other_urls:
+               matched_channels[category].setdefault(channel_name, []).extend(livednow_urls + other_urls)
     return matched_channels
 
 def filter_source_urls(template_file):
