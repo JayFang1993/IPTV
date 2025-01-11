@@ -10,9 +10,11 @@ http://ottrrs.hl.chinamobile.com/TVOD/88888888/224/3221226016/index.m3u8$线路4
 #EXTINF:-1 tvg-id="5" tvg-name="CCTV1" tvg-logo="https://gcore.jsdelivr.net/gh/yuanzl77/TVlogo@master/png/CCTV1.png" group-title="央视频道",CCTV1
 http://ottrrs.hl.chinamobile.com/TVOD/88888888/224/3221226559/index.m3u8$线路5
 #EXTINF:-1 tvg-id="6" tvg-name="CCTV1" tvg-logo="https://gcore.jsdelivr.net/gh/yuanzl77/TVlogo@master/png/CCTV1.png" group-title="央视频道",CCTV1
-http://ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226514/index.m3u8$线路6
+http:///ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226016/index.m3u8$线路6
 #EXTINF:-1 tvg-id="7" tvg-name="CCTV1" tvg-logo="https://gcore.jsdelivr.net/gh/yuanzl77/TVlogo@master/png/CCTV1.png" group-title="央视频道",CCTV1
-http://ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226016/index.m3u8?$线路7
+http://ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226514/index.m3u8$线路7
+#EXTINF:-1 tvg-id="8" tvg-name="CCTV1" tvg-logo="https://gcore.jsdelivr.net/gh/yuanzl77/TVlogo@master/png/CCTV1.png" group-title="央视频道",CCTV1
+http://ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226016/index.m3u8?$线路8
 #EXTINF:-1 tvg-id="1" tvg-name="CCTV2" tvg-logo="https://gcore.jsdelivr.net/gh/yuanzl77/TVlogo@master/png/CCTV2.png" group-title="央视频道",CCTV2
 https://api.livednow.org/migu/631780532?sign=gAAAAABnJcJqr0fwyjCRZenumPiYq29AgCGZbexK2XyM9exSQfwePDL4rwLxMaYmUy5BI5tmZ3p5Opg3XGESQyj1Myyx8xlfa--CzghtRa5MzC5lgOOROQFokKNIjS1xgPhehkOToP6coFx9T1FJaYtv8R7vSMPYGiBtsqx-CdWfMNReSPjRaDJSSrjZ0WKCW5GajQiFiD1fOBTLjS-S7V-uzyIxCqKWiQ%3D%3D$线路1
 #EXTINF:-1 tvg-id="2" tvg-name="CCTV2" tvg-logo="https://gcore.jsdelivr.net/gh/yuanzl77/TVlogo@master/png/CCTV2.png" group-title="央视频道",CCTV2
@@ -226,9 +228,9 @@ http://ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226450/index.m3u8$线路2
 #EXTINF:-1 tvg-id="3" tvg-name="北京卫视" tvg-logo="https://gcore.jsdelivr.net/gh/yuanzl77/TVlogo@master/png/北京卫视.png" group-title="卫视频道",北京卫视
 http://ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226251/index.m3u8$线路3
 #EXTINF:-1 tvg-id="4" tvg-name="北京卫视" tvg-logo="https://gcore.jsdelivr.net/gh/yuanzl77/TVlogo@master/png/北京卫视.png" group-title="卫视频道",北京卫视
-http://ottrrs.hl.chinamobile.com/TVOD/88888888/224/3221226450/index.m3u8$线路4
+http://ottrrs.hl.chinamobile.com/TVOD/88888888/224/3221225728/index.m3u8$线路4
 #EXTINF:-1 tvg-id="5" tvg-name="北京卫视" tvg-logo="https://gcore.jsdelivr.net/gh/yuanzl77/TVlogo@master/png/北京卫视.png" group-title="卫视频道",北京卫视
-http://ottrrs.hl.chinamobile.com/TVOD/88888888/224/3221225728/index.m3u8$线路5
+http://ottrrs.hl.chinamobile.com/TVOD/88888888/224/3221226450/index.m3u8$线路5
 #EXTINF:-1 tvg-id="1" tvg-name="江苏卫视" tvg-logo="https://gcore.jsdelivr.net/gh/yuanzl77/TVlogo@master/png/江苏卫视.png" group-title="卫视频道",江苏卫视
 https://api.livednow.org/migu/623899368?sign=gAAAAABnJcJqRqI051KXILLz-XtpXbmEXLRGs-Yttth90tUl-tH72dTMSRz5XSe39WHDnCr1uKjzpLzf-XqtGUIa-paJf3cDV1e-mJlqBCGc_ax_4pRulP6_2Jlc_SuTukDjaZs39go_UqkCqJgB8UAhhLbgibqSnuQrBTo4CkvfDCxfpsC0EXRHon4Pev7oJWFEMzDPrhcce4fsv356rgkUiSMuuBAzAw%3D%3D$线路1
 #EXTINF:-1 tvg-id="2" tvg-name="江苏卫视" tvg-logo="https://gcore.jsdelivr.net/gh/yuanzl77/TVlogo@master/png/江苏卫视.png" group-title="卫视频道",江苏卫视
