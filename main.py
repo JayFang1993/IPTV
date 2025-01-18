@@ -96,9 +96,9 @@ def match_channels(template_channels, all_channels):
                     if channel_name == online_channel_name:
                         logging.info(f"url: 检查: {online_channel_url}")
                         # Check if the host domain of online_channel_url can be pinged
-                        if "api.livednow.org" in online_channel_url:
-                            livednow_urls.append(online_channel_url)
-                        elif "ottrrs.hl.chinamobile.com" in online_channel_url:
+                        # if "api.livednow.org" in online_channel_url:
+                            # livednow_urls.append(online_channel_url)
+                        if "ottrrs.hl.chinamobile.com" in online_channel_url:
                             other_urls.append(online_channel_url)
             if livednow_urls or other_urls:
                matched_channels[category].setdefault(channel_name, []).extend(livednow_urls + other_urls)
