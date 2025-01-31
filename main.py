@@ -98,7 +98,7 @@ def match_channels(template_channels, all_channels):
                         # Check if the host domain of online_channel_url can be pinged
                         # if "api.livednow.org" in online_channel_url:
                             # livednow_urls.append(online_channel_url)
-                        if "ottrrs.hl.chinamobile.com" in online_channel_url:
+                        if "chinamobile.com" in online_channel_url:
                             other_urls.append(online_channel_url)
             if livednow_urls or other_urls:
                matched_channels[category].setdefault(channel_name, []).extend(livednow_urls + other_urls)
